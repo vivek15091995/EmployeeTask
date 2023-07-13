@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EmpModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Departments">
+    <Key>
+      <PropertyRef Name="DepartmentId" />
+    </Key>
+    <Property Name="DepartmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DepartmentName" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Designations">
+    <Key>
+      <PropertyRef Name="DesignationId" />
+    </Key>
+    <Property Name="DesignationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DesignationName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Employees">
+    <Key>
+      <PropertyRef Name="EmpId" />
+    </Key>
+    <Property Name="EmpId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpTag" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Firstname" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Lastname" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="DepartmentId" Type="int" Nullable="false" />
+    <Property Name="DOB" Type="date" Nullable="false" />
+    <Property Name="DesignationId" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'Emp.dbo.EmployeeListForView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="EmployeeListForView">
+    <Key>
+      <PropertyRef Name="EmpId" />
+      <PropertyRef Name="EmpTag" />
+      <PropertyRef Name="Firstname" />
+      <PropertyRef Name="Lastname" />
+      <PropertyRef Name="Email" />
+      <PropertyRef Name="DepartmentId" />
+      <PropertyRef Name="DOB" />
+      <PropertyRef Name="DesignationId" />
+      <PropertyRef Name="DepartmentName" />
+      <PropertyRef Name="DesignationName" />
+    </Key>
+    <Property Name="EmpId" Type="int" Nullable="false" />
+    <Property Name="EmpTag" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Firstname" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Lastname" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="DepartmentId" Type="int" Nullable="false" />
+    <Property Name="DOB" Type="date" Nullable="false" />
+    <Property Name="DesignationId" Type="int" Nullable="false" />
+    <Property Name="DepartmentName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="DesignationName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Age" Type="int" />
+  </EntityType>
+  <Association Name="FK_Employees_Departments">
+    <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
+    <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="DepartmentId" />
+      </Principal>
+      <Dependent Role="Employees">
+        <PropertyRef Name="DepartmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employees_Designations">
+    <End Role="Designations" Type="Self.Designations" Multiplicity="1" />
+    <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Designations">
+        <PropertyRef Name="DesignationId" />
+      </Principal>
+      <Dependent Role="Employees">
+        <PropertyRef Name="DesignationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EmpModelStoreContainer">
+    <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Designations" EntityType="Self.Designations" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EmployeeListForView" EntityType="Self.EmployeeListForView" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+[EmployeeListForView].[EmpId] AS [EmpId], 
+[EmployeeListForView].[EmpTag] AS [EmpTag], 
+[EmployeeListForView].[Firstname] AS [Firstname], 
+[EmployeeListForView].[Lastname] AS [Lastname], 
+[EmployeeListForView].[Email] AS [Email], 
+[EmployeeListForView].[DepartmentId] AS [DepartmentId], 
+[EmployeeListForView].[DOB] AS [DOB], 
+[EmployeeListForView].[DesignationId] AS [DesignationId], 
+[EmployeeListForView].[DepartmentName] AS [DepartmentName], 
+[EmployeeListForView].[DesignationName] AS [DesignationName], 
+[EmployeeListForView].[Age] AS [Age]
+FROM [dbo].[EmployeeListForView] AS [EmployeeListForView]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Employees_Departments" Association="Self.FK_Employees_Departments">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Employees" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employees_Designations" Association="Self.FK_Employees_Designations">
+      <End Role="Designations" EntitySet="Designations" />
+      <End Role="Employees" EntitySet="Employees" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

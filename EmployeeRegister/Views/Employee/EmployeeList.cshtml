@@ -1,0 +1,70 @@
+﻿@model List<EmployeeRegister.Models.EmployeeListForViewModel>
+@{
+    ViewBag.Title = "EmployeeList";
+}
+
+<h2>EmployeeList</h2>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+
+<script>
+    $(document).ready(function () {
+        new DataTable('#empList', {
+
+            ordering: true,
+            paging: true
+        });
+    });
+</script>
+<table class="" id="empList">
+    <thead>
+        <tr>
+            <th>
+                Emp Tag#
+            </th>
+            <th>
+
+                First Name
+
+
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+                Age
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.EmpTag</td>
+                <td>@item.Firstname</td>
+                <td>@item.Lastname</td>
+                <td>@item.Email</td>
+                <td>@item.DepartmentName</td>
+                <td>@item.Age</td>
+                <td>@item.DesignationName</td>
+                <td>
+                    <a href="@Url.Action("UpdateEmployee",new { item.EmpId,item.Firstname,item.Lastname,item.Email,item.DesignationId,item.DOB,item.DepartmentId,item.EmpTag})"><i class="glyphicon glyphicon-pencil"></i></a>
+                    <a href="@Url.Action("DeleteEmployee",new { item.EmpId})"><i class="glyphicon glyphicon-trash"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
